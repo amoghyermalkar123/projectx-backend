@@ -24,120 +24,189 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type ChatMessageRequest struct {
-	UserId               int64    `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
+type ChatMessage struct {
+	ChannelName          string   `protobuf:"bytes,1,opt,name=channelName,proto3" json:"channelName,omitempty"`
 	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ChatMessageRequest) Reset()         { *m = ChatMessageRequest{} }
-func (m *ChatMessageRequest) String() string { return proto.CompactTextString(m) }
-func (*ChatMessageRequest) ProtoMessage()    {}
-func (*ChatMessageRequest) Descriptor() ([]byte, []int) {
+func (m *ChatMessage) Reset()         { *m = ChatMessage{} }
+func (m *ChatMessage) String() string { return proto.CompactTextString(m) }
+func (*ChatMessage) ProtoMessage()    {}
+func (*ChatMessage) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ffaca738ab57128c, []int{0}
 }
 
-func (m *ChatMessageRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ChatMessageRequest.Unmarshal(m, b)
+func (m *ChatMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChatMessage.Unmarshal(m, b)
 }
-func (m *ChatMessageRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ChatMessageRequest.Marshal(b, m, deterministic)
+func (m *ChatMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChatMessage.Marshal(b, m, deterministic)
 }
-func (m *ChatMessageRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChatMessageRequest.Merge(m, src)
+func (m *ChatMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChatMessage.Merge(m, src)
 }
-func (m *ChatMessageRequest) XXX_Size() int {
-	return xxx_messageInfo_ChatMessageRequest.Size(m)
+func (m *ChatMessage) XXX_Size() int {
+	return xxx_messageInfo_ChatMessage.Size(m)
 }
-func (m *ChatMessageRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ChatMessageRequest.DiscardUnknown(m)
+func (m *ChatMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChatMessage.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ChatMessageRequest proto.InternalMessageInfo
+var xxx_messageInfo_ChatMessage proto.InternalMessageInfo
 
-func (m *ChatMessageRequest) GetUserId() int64 {
+func (m *ChatMessage) GetChannelName() string {
 	if m != nil {
-		return m.UserId
+		return m.ChannelName
 	}
-	return 0
+	return ""
 }
 
-func (m *ChatMessageRequest) GetMessage() string {
+func (m *ChatMessage) GetMessage() string {
 	if m != nil {
 		return m.Message
 	}
 	return ""
 }
 
-type ChatMessageResponse struct {
-	UserId               int64    `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
-	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+type MessageAck struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ChatMessageResponse) Reset()         { *m = ChatMessageResponse{} }
-func (m *ChatMessageResponse) String() string { return proto.CompactTextString(m) }
-func (*ChatMessageResponse) ProtoMessage()    {}
-func (*ChatMessageResponse) Descriptor() ([]byte, []int) {
+func (m *MessageAck) Reset()         { *m = MessageAck{} }
+func (m *MessageAck) String() string { return proto.CompactTextString(m) }
+func (*MessageAck) ProtoMessage()    {}
+func (*MessageAck) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ffaca738ab57128c, []int{1}
 }
 
-func (m *ChatMessageResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ChatMessageResponse.Unmarshal(m, b)
+func (m *MessageAck) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MessageAck.Unmarshal(m, b)
 }
-func (m *ChatMessageResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ChatMessageResponse.Marshal(b, m, deterministic)
+func (m *MessageAck) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MessageAck.Marshal(b, m, deterministic)
 }
-func (m *ChatMessageResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChatMessageResponse.Merge(m, src)
+func (m *MessageAck) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MessageAck.Merge(m, src)
 }
-func (m *ChatMessageResponse) XXX_Size() int {
-	return xxx_messageInfo_ChatMessageResponse.Size(m)
+func (m *MessageAck) XXX_Size() int {
+	return xxx_messageInfo_MessageAck.Size(m)
 }
-func (m *ChatMessageResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ChatMessageResponse.DiscardUnknown(m)
+func (m *MessageAck) XXX_DiscardUnknown() {
+	xxx_messageInfo_MessageAck.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ChatMessageResponse proto.InternalMessageInfo
+var xxx_messageInfo_MessageAck proto.InternalMessageInfo
 
-func (m *ChatMessageResponse) GetUserId() int64 {
+type ConnectionRequest struct {
+	UserID               string   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
+	ChannelName          string   `protobuf:"bytes,2,opt,name=channelName,proto3" json:"channelName,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ConnectionRequest) Reset()         { *m = ConnectionRequest{} }
+func (m *ConnectionRequest) String() string { return proto.CompactTextString(m) }
+func (*ConnectionRequest) ProtoMessage()    {}
+func (*ConnectionRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffaca738ab57128c, []int{2}
+}
+
+func (m *ConnectionRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConnectionRequest.Unmarshal(m, b)
+}
+func (m *ConnectionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConnectionRequest.Marshal(b, m, deterministic)
+}
+func (m *ConnectionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConnectionRequest.Merge(m, src)
+}
+func (m *ConnectionRequest) XXX_Size() int {
+	return xxx_messageInfo_ConnectionRequest.Size(m)
+}
+func (m *ConnectionRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConnectionRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConnectionRequest proto.InternalMessageInfo
+
+func (m *ConnectionRequest) GetUserID() string {
 	if m != nil {
-		return m.UserId
-	}
-	return 0
-}
-
-func (m *ChatMessageResponse) GetMessage() string {
-	if m != nil {
-		return m.Message
+		return m.UserID
 	}
 	return ""
 }
 
+func (m *ConnectionRequest) GetChannelName() string {
+	if m != nil {
+		return m.ChannelName
+	}
+	return ""
+}
+
+type SuccessEmptyResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SuccessEmptyResponse) Reset()         { *m = SuccessEmptyResponse{} }
+func (m *SuccessEmptyResponse) String() string { return proto.CompactTextString(m) }
+func (*SuccessEmptyResponse) ProtoMessage()    {}
+func (*SuccessEmptyResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffaca738ab57128c, []int{3}
+}
+
+func (m *SuccessEmptyResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuccessEmptyResponse.Unmarshal(m, b)
+}
+func (m *SuccessEmptyResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuccessEmptyResponse.Marshal(b, m, deterministic)
+}
+func (m *SuccessEmptyResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuccessEmptyResponse.Merge(m, src)
+}
+func (m *SuccessEmptyResponse) XXX_Size() int {
+	return xxx_messageInfo_SuccessEmptyResponse.Size(m)
+}
+func (m *SuccessEmptyResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuccessEmptyResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SuccessEmptyResponse proto.InternalMessageInfo
+
 func init() {
-	proto.RegisterType((*ChatMessageRequest)(nil), "msgapi.ChatMessageRequest")
-	proto.RegisterType((*ChatMessageResponse)(nil), "msgapi.ChatMessageResponse")
+	proto.RegisterType((*ChatMessage)(nil), "msgapi.ChatMessage")
+	proto.RegisterType((*MessageAck)(nil), "msgapi.MessageAck")
+	proto.RegisterType((*ConnectionRequest)(nil), "msgapi.ConnectionRequest")
+	proto.RegisterType((*SuccessEmptyResponse)(nil), "msgapi.SuccessEmptyResponse")
 }
 
 func init() { proto.RegisterFile("proto/chatMessage.proto", fileDescriptor_ffaca738ab57128c) }
 
 var fileDescriptor_ffaca738ab57128c = []byte{
-	// 169 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2f, 0x28, 0xca, 0x2f,
-	0xc9, 0xd7, 0x4f, 0xce, 0x48, 0x2c, 0xf1, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0xd5, 0x03, 0x8b,
-	0x08, 0xb1, 0xe5, 0x16, 0xa7, 0x27, 0x16, 0x64, 0x2a, 0xb9, 0x71, 0x09, 0x39, 0x23, 0x24, 0x83,
-	0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x84, 0xc4, 0xb8, 0xd8, 0x4a, 0x8b, 0x53, 0x8b, 0x3c, 0x53,
-	0x24, 0x18, 0x15, 0x18, 0x35, 0x98, 0x83, 0xa0, 0x3c, 0x21, 0x09, 0x2e, 0xf6, 0x5c, 0x88, 0x4a,
-	0x09, 0x26, 0x05, 0x46, 0x0d, 0xce, 0x20, 0x18, 0x57, 0xc9, 0x9d, 0x4b, 0x18, 0xc5, 0x9c, 0xe2,
-	0x82, 0xfc, 0xbc, 0xe2, 0x54, 0xd2, 0x0d, 0x32, 0x8a, 0x46, 0x71, 0x50, 0x70, 0x6a, 0x51, 0x59,
-	0x66, 0x72, 0xaa, 0x90, 0x2b, 0x17, 0x0b, 0xc8, 0x0f, 0x42, 0x52, 0x7a, 0x10, 0x77, 0xeb, 0x61,
-	0x3a, 0x5a, 0x4a, 0x1a, 0xab, 0x1c, 0xc4, 0x21, 0x4a, 0x0c, 0x1a, 0x8c, 0x06, 0x8c, 0x4e, 0x6c,
-	0x51, 0x2c, 0xfa, 0x89, 0x05, 0x99, 0x49, 0x6c, 0xe0, 0x40, 0x30, 0x06, 0x04, 0x00, 0x00, 0xff,
-	0xff, 0xa9, 0xcf, 0xda, 0x8d, 0x1f, 0x01, 0x00, 0x00,
+	// 246 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x90, 0x3f, 0x4f, 0xc3, 0x30,
+	0x10, 0xc5, 0xeb, 0x0a, 0x05, 0x71, 0x61, 0xe1, 0x40, 0x25, 0x74, 0xaa, 0x3c, 0x75, 0x4a, 0x11,
+	0x6c, 0x6c, 0x25, 0x30, 0x14, 0xa9, 0x0c, 0xc9, 0xc6, 0x66, 0xcc, 0xa9, 0xb5, 0x20, 0xb6, 0xc9,
+	0x39, 0x48, 0x7c, 0x0e, 0xbe, 0x30, 0x52, 0xfe, 0x40, 0x14, 0x18, 0xef, 0xdd, 0xf3, 0x7b, 0xfe,
+	0x1d, 0x9c, 0xfb, 0xca, 0x05, 0xb7, 0xd2, 0x7b, 0x15, 0xb6, 0xc4, 0xac, 0x76, 0x94, 0x36, 0x0a,
+	0x46, 0x25, 0xef, 0x94, 0x37, 0x72, 0x03, 0x71, 0xf6, 0xbb, 0xc4, 0x05, 0xc4, 0x7a, 0xaf, 0xac,
+	0xa5, 0xb7, 0x47, 0x55, 0x52, 0x22, 0x16, 0x62, 0x79, 0x94, 0x0f, 0x25, 0x4c, 0xe0, 0xb0, 0x6c,
+	0xcd, 0xc9, 0xb4, 0xd9, 0xf6, 0xa3, 0x3c, 0x06, 0xe8, 0x62, 0xd6, 0xfa, 0x55, 0x6e, 0xe1, 0x24,
+	0x73, 0xd6, 0x92, 0x0e, 0xc6, 0xd9, 0x9c, 0xde, 0x6b, 0xe2, 0x80, 0x33, 0x88, 0x6a, 0xa6, 0x6a,
+	0x73, 0xd7, 0x25, 0x77, 0xd3, 0xb8, 0x76, 0xfa, 0xa7, 0x56, 0xce, 0xe0, 0xac, 0xa8, 0xb5, 0x26,
+	0xe6, 0xfb, 0xd2, 0x87, 0xcf, 0x9c, 0xd8, 0x3b, 0xcb, 0x74, 0xf5, 0x25, 0x00, 0x07, 0x00, 0x05,
+	0x55, 0x1f, 0x46, 0x13, 0xde, 0x40, 0x5c, 0x90, 0x7d, 0xe9, 0xb1, 0x4e, 0xd3, 0x16, 0x37, 0x1d,
+	0x58, 0xe7, 0xd8, 0x8b, 0x83, 0x5f, 0x4f, 0x96, 0x02, 0xd7, 0x10, 0x3f, 0x38, 0x63, 0xb3, 0xb6,
+	0x1d, 0x2f, 0x7e, 0xde, 0x8e, 0x71, 0xe6, 0xff, 0xc5, 0xca, 0xc9, 0xa5, 0xb8, 0x8d, 0x9e, 0x0e,
+	0x56, 0xca, 0x9b, 0xe7, 0xa8, 0x39, 0xf6, 0xf5, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0x12, 0xf3,
+	0xa7, 0x0d, 0x87, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -152,7 +221,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ChatMessageServiceClient interface {
-	Chat(ctx context.Context, opts ...grpc.CallOption) (ChatMessageService_ChatClient, error)
+	SendMessage(ctx context.Context, opts ...grpc.CallOption) (ChatMessageService_SendMessageClient, error)
+	JoinChannel(ctx context.Context, in *ConnectionRequest, opts ...grpc.CallOption) (ChatMessageService_JoinChannelClient, error)
 }
 
 type chatMessageServiceClient struct {
@@ -163,31 +233,66 @@ func NewChatMessageServiceClient(cc *grpc.ClientConn) ChatMessageServiceClient {
 	return &chatMessageServiceClient{cc}
 }
 
-func (c *chatMessageServiceClient) Chat(ctx context.Context, opts ...grpc.CallOption) (ChatMessageService_ChatClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_ChatMessageService_serviceDesc.Streams[0], "/msgapi.ChatMessageService/chat", opts...)
+func (c *chatMessageServiceClient) SendMessage(ctx context.Context, opts ...grpc.CallOption) (ChatMessageService_SendMessageClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_ChatMessageService_serviceDesc.Streams[0], "/msgapi.ChatMessageService/SendMessage", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &chatMessageServiceChatClient{stream}
+	x := &chatMessageServiceSendMessageClient{stream}
 	return x, nil
 }
 
-type ChatMessageService_ChatClient interface {
-	Send(*ChatMessageRequest) error
-	Recv() (*ChatMessageResponse, error)
+type ChatMessageService_SendMessageClient interface {
+	Send(*ChatMessage) error
+	CloseAndRecv() (*MessageAck, error)
 	grpc.ClientStream
 }
 
-type chatMessageServiceChatClient struct {
+type chatMessageServiceSendMessageClient struct {
 	grpc.ClientStream
 }
 
-func (x *chatMessageServiceChatClient) Send(m *ChatMessageRequest) error {
+func (x *chatMessageServiceSendMessageClient) Send(m *ChatMessage) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *chatMessageServiceChatClient) Recv() (*ChatMessageResponse, error) {
-	m := new(ChatMessageResponse)
+func (x *chatMessageServiceSendMessageClient) CloseAndRecv() (*MessageAck, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(MessageAck)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *chatMessageServiceClient) JoinChannel(ctx context.Context, in *ConnectionRequest, opts ...grpc.CallOption) (ChatMessageService_JoinChannelClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_ChatMessageService_serviceDesc.Streams[1], "/msgapi.ChatMessageService/JoinChannel", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &chatMessageServiceJoinChannelClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ChatMessageService_JoinChannelClient interface {
+	Recv() (*ChatMessage, error)
+	grpc.ClientStream
+}
+
+type chatMessageServiceJoinChannelClient struct {
+	grpc.ClientStream
+}
+
+func (x *chatMessageServiceJoinChannelClient) Recv() (*ChatMessage, error) {
+	m := new(ChatMessage)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -196,45 +301,70 @@ func (x *chatMessageServiceChatClient) Recv() (*ChatMessageResponse, error) {
 
 // ChatMessageServiceServer is the server API for ChatMessageService service.
 type ChatMessageServiceServer interface {
-	Chat(ChatMessageService_ChatServer) error
+	SendMessage(ChatMessageService_SendMessageServer) error
+	JoinChannel(*ConnectionRequest, ChatMessageService_JoinChannelServer) error
 }
 
 // UnimplementedChatMessageServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedChatMessageServiceServer struct {
 }
 
-func (*UnimplementedChatMessageServiceServer) Chat(srv ChatMessageService_ChatServer) error {
-	return status.Errorf(codes.Unimplemented, "method Chat not implemented")
+func (*UnimplementedChatMessageServiceServer) SendMessage(srv ChatMessageService_SendMessageServer) error {
+	return status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
+}
+func (*UnimplementedChatMessageServiceServer) JoinChannel(req *ConnectionRequest, srv ChatMessageService_JoinChannelServer) error {
+	return status.Errorf(codes.Unimplemented, "method JoinChannel not implemented")
 }
 
 func RegisterChatMessageServiceServer(s *grpc.Server, srv ChatMessageServiceServer) {
 	s.RegisterService(&_ChatMessageService_serviceDesc, srv)
 }
 
-func _ChatMessageService_Chat_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChatMessageServiceServer).Chat(&chatMessageServiceChatServer{stream})
+func _ChatMessageService_SendMessage_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ChatMessageServiceServer).SendMessage(&chatMessageServiceSendMessageServer{stream})
 }
 
-type ChatMessageService_ChatServer interface {
-	Send(*ChatMessageResponse) error
-	Recv() (*ChatMessageRequest, error)
+type ChatMessageService_SendMessageServer interface {
+	SendAndClose(*MessageAck) error
+	Recv() (*ChatMessage, error)
 	grpc.ServerStream
 }
 
-type chatMessageServiceChatServer struct {
+type chatMessageServiceSendMessageServer struct {
 	grpc.ServerStream
 }
 
-func (x *chatMessageServiceChatServer) Send(m *ChatMessageResponse) error {
+func (x *chatMessageServiceSendMessageServer) SendAndClose(m *MessageAck) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *chatMessageServiceChatServer) Recv() (*ChatMessageRequest, error) {
-	m := new(ChatMessageRequest)
+func (x *chatMessageServiceSendMessageServer) Recv() (*ChatMessage, error) {
+	m := new(ChatMessage)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
+}
+
+func _ChatMessageService_JoinChannel_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ConnectionRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ChatMessageServiceServer).JoinChannel(m, &chatMessageServiceJoinChannelServer{stream})
+}
+
+type ChatMessageService_JoinChannelServer interface {
+	Send(*ChatMessage) error
+	grpc.ServerStream
+}
+
+type chatMessageServiceJoinChannelServer struct {
+	grpc.ServerStream
+}
+
+func (x *chatMessageServiceJoinChannelServer) Send(m *ChatMessage) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 var _ChatMessageService_serviceDesc = grpc.ServiceDesc{
@@ -243,10 +373,14 @@ var _ChatMessageService_serviceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "chat",
-			Handler:       _ChatMessageService_Chat_Handler,
-			ServerStreams: true,
+			StreamName:    "SendMessage",
+			Handler:       _ChatMessageService_SendMessage_Handler,
 			ClientStreams: true,
+		},
+		{
+			StreamName:    "JoinChannel",
+			Handler:       _ChatMessageService_JoinChannel_Handler,
+			ServerStreams: true,
 		},
 	},
 	Metadata: "proto/chatMessage.proto",

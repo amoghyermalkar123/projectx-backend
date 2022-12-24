@@ -4,15 +4,20 @@ package msgapi;
 option go_package = "/api";
 
 service ChatMessageService {
-    rpc chat(stream ChatMessageRequest) returns (stream ChatMessageResponse ) {};
+    rpc SendMessage(stream ChatMessage) returns (MessageAck) {};
+    rpc JoinChannel(ConnectionRequest) returns (stream ChatMessage) {};
 }
 
-message ChatMessageRequest {
-  int64 userId = 1;
+message ChatMessage{
+  string channelName = 1;
   string message = 2;
 }
 
-message ChatMessageResponse {
-  int64 userId = 1;
-  string message = 2;
+message MessageAck {}
+
+message ConnectionRequest {
+  string userID = 1;
+  string channelName = 2;
 }
+
+message SuccessEmptyResponse {}

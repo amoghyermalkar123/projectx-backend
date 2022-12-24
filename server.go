@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"projectx/proto/api"
@@ -9,27 +12,56 @@ import (
 	"google.golang.org/grpc"
 )
 
-type MessageServer struct{}
+type MessageServer struct {
+	channel map[string][]chan *api.ChatMessage
+}
 
-func (m *MessageServer) Chat(server api.ChatMessageService_ChatServer) error {
+func (m *MessageServer) JoinChannel(joinRequest *api.ConnectionRequest, stream api.ChatMessageService_JoinChannelServer) error {
+	msgChannel := make(chan *api.ChatMessage)
+	m.channel[joinRequest.ChannelName] = append(m.channel[joinRequest.ChannelName], msgChannel)
+	log.Println("channel data:", m.channel)
 	for {
-		request, err := server.Recv()
-		if err != nil {
-			fmt.Println("err from chat", err)
-			return err
-		}
-		err = server.Send(&api.ChatMessageResponse{
-			UserId:  request.UserId,
-			Message: fmt.Sprint("Response from Keyur:", request.Message),
-		})
-		if err != nil {
-			fmt.Println(err)
+		select {
+		case <-stream.Context().Done():
+			log.Println("closing stream")
+			return nil
+		case msg := <-msgChannel:
+			log.Println("streaming msg to:", joinRequest.UserID)
+			err := stream.Send(msg)
+			if err != nil {
+				log.Println("error while streaming response to client", err)
+			}
 		}
 	}
 }
 
+func (m *MessageServer) SendMessage(server api.ChatMessageService_SendMessageServer) error {
+	for {
+		msg, err := server.Recv()
+		if err != nil {
+			if errors.Is(err, context.Canceled) {
+				return nil
+			}
+			if err == io.EOF {
+				return nil
+			}
+			log.Println("error while receing client message", err)
+			return err
+		}
+
+		go func() {
+			streams := m.channel[msg.ChannelName]
+			for _, individualUserStream := range streams {
+				individualUserStream <- msg
+			}
+		}()
+	}
+}
+
 func NewRpcServer() *MessageServer {
-	return &MessageServer{}
+	return &MessageServer{
+		channel: make(map[string][]chan *api.ChatMessage),
+	}
 }
 
 func main() {

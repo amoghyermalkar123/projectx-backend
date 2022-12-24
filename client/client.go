@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
+	"log"
 	"projectx/proto/api"
 	"time"
 
@@ -11,11 +13,7 @@ import (
 )
 
 func main() {
-	request := api.ChatMessageRequest{
-		UserId:  1,
-		Message: "Hello World!",
-	}
-	conn, err := grpc.Dial("127.0.0.1:8081",
+	conn, err := grpc.Dial("localhost:8081",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithTimeout(2*time.Second),
 	)
@@ -25,15 +23,46 @@ func main() {
 	}
 
 	chatServiceClient := api.NewChatMessageServiceClient(conn)
-	chatS, err := chatServiceClient.Chat(context.Background())
 
+	channelStream, err := chatServiceClient.JoinChannel(context.Background(), &api.ConnectionRequest{
+		UserID:      "User2",
+		ChannelName: "Amogh",
+	})
+	fmt.Println("joined channel")
 	if err != nil {
-		fmt.Println(err)
+		log.Println("error while joining to channel", err)
+		return
 	}
 
-	err = chatS.Send(&request)
-	if err != nil {
-		fmt.Println(err)
+	go func() {
+		fmt.Println("started listening for message")
+		for {
+			fmt.Println("waiting for message ..")
+			msg, err := channelStream.Recv()
+			if err == io.EOF {
+				log.Print("end")
+				return
+			}
+			log.Println("message received for user from channel:", msg)
+		}
+	}()
+	request := api.ChatMessage{
+		ChannelName: "Amogh",
+		Message:     "hi there",
 	}
-	fmt.Println("Message sent successfully")
+	stream, err := chatServiceClient.SendMessage(context.Background())
+
+	if err != nil {
+		log.Println("error while joining to channel", err)
+		return
+	}
+
+	for {
+		time.Sleep(2 * time.Second)
+		err = stream.Send(&request)
+		if err != nil {
+			log.Println("error while sending message", err)
+			return
+		}
+	}
 }
