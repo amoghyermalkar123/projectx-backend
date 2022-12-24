@@ -9,8 +9,9 @@ service ChatMessageService {
 }
 
 message ChatMessage{
-  string channelName = 1;
-  string message = 2;
+  string senderID = 1;
+  string channelName = 2;
+  string message = 3;
 }
 
 message MessageAck {}
